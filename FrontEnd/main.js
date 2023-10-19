@@ -24,13 +24,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener("DOMContentLoaded", function () {
     const filter = document.querySelector(".container-filter");
-    fetch("http://localhost:5678/api/works/")
+    fetch("http://localhost:5678/api/categories")
     .then(response => response.json())
     .then(data => {
         data.forEach(filterData => {
-            const p = document.cre
+            const p = document.createElement("p");
+            p.classList.add("filter");
+            p.textContent = filterData.name;
+
+            filter.appendChild(p);
         })
     })
 })
+
+
+
+
+
+
 
 
