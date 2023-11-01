@@ -104,6 +104,29 @@ li:hover {
 	color: #B1663C;
 }
 
+/* BOUTON MODIFIER */
+
+.edit-toolbar {
+	padding: 10px;
+	text-align: center;
+	background-color: black;
+	color: white;
+}
+.edit-toolbar i {
+	margin: 8px;
+}
+.edit-btn {
+	background-color: #ffffff; /* Green */
+	border: none;
+	color: rgb(0, 0, 0);
+	padding: 4px 14px;
+	font-size: 16px;
+}
+
+.edit-btn i {
+	margin: 8px;
+}
+
 
 /* DIV FILTRE */
 

@@ -1,13 +1,10 @@
-import { isUserLoggedIn } from "./login.js";
 export function setupGallery() {
 
-  // Récupération des class html 
     const gallery = document.querySelector(".gallery");
     const filterContainer = document.querySelector(".container-filter");
     const allFilter = document.getElementById("all-filter");
   
 
-    // Fonction showImagesByCategory 
     function showImagesByCategory(categoryId) {
       gallery.innerHTML = "";
       fetch("http://localhost:5678/api/works") // API IMAGES
@@ -31,10 +28,45 @@ export function setupGallery() {
           console.error("Erreur lors du chargement des images : ", error);
         });
     }
-// Condition If (localstorage)
-//  Si le token en localstorage et la alors afficher le bouton modifier
-//  Sinon affiché le selecteur de catégorie
 
+function getAuthToken() {
+  return localStorage.getItem("authToken");
+}
+
+if (getAuthToken(true)) {
+        showImagesByCategory(null);
+        filterContainer.innerHTML = ""; 
+
+        const portfolioSection = document.getElementById("portfolio");
+
+        const editButton = document.createElement('button');
+
+        const icon = document.createElement('i');
+        icon.classList.add("fa-regular", "fa-pen-to-square");
+
+        const buttonText = document.createTextNode("Modifier");
+
+        editButton.appendChild(icon);
+        editButton.appendChild(buttonText);
+
+        editButton.classList.add("edit-btn");
+
+        const titleElement = portfolioSection.querySelector("h2");
+        titleElement.appendChild(editButton);
+
+        editButton.addEventListener("click", function () {
+
+          //  Si un click et fait sur bouton alors il faut afficher le modal
+        });
+
+        const logout = document.getElementById("logout");
+
+        logout.innerHTML = "logout";
+
+        logout.addEventListener("click", function() {
+          localStorage.clear("authToken")
+        } )
+} else {
   console.log("Compte Non-Connecté")
   fetch("http://localhost:5678/api/categories") // API CATEGORIES
   .then(response => response.json())
@@ -64,6 +96,8 @@ export function setupGallery() {
     });
   
     showImagesByCategory(null);
+ }
+
   }
   
  

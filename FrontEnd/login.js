@@ -4,6 +4,7 @@ const passwordInput = document.getElementById("password");
 const emailError = document.getElementById("email-error");
 const passwordError = document.getElementById("password-error");
 
+
 function displayError(element, message) {
   element.textContent = message;
 }
@@ -45,8 +46,7 @@ function handleLogin(event) {
     .then(response => {
       if (response.ok) {
         console.log("Connexion réussie");
-        // Après une connexion réussie, stockez le jeton dans un cookie
-        setAuthToken("votre-token-ici");
+        setAuthToken("Sophie - Admin");
         window.location.href = "./index.html";
       } else {
         console.error("Échec de la connexion");
@@ -61,26 +61,9 @@ function handleLogin(event) {
 
 loginForm.addEventListener("submit", handleLogin);
 
-// Après une connexion réussie, stockez le jeton dans un cookie
 function setAuthToken(token) {
-  document.cookie = `authToken=${token}; path=/`;
+  localStorage.setItem("authToken", token);
 }
-
-// Récupérez le jeton à partir du cookie
 function getAuthToken() {
-  const cookies = document.cookie.split("; ");
-  for (const cookie of cookies) {
-    const [name, value] = cookie.split("=");
-    if (name === "authToken") {
-      return value;
-    }
-  }
-  return null;
+  return localStorage.getItem("authToken");
 }
-
-// Vérifiez si l'utilisateur est connecté
- export function isUserLoggedIn() {
-  const authToken = getAuthToken();
-  return authToken !== null;
-}
-// Utilisation : après une connexion réussie, appelez setAuthToken(token)
