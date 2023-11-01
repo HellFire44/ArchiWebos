@@ -128,6 +128,32 @@ li:hover {
 }
 
 
+/* DESIGN MODAL */
+
+#modal {
+	border: none;
+	border-radius: 10px;
+}
+
+ #modal h2 {
+	font-weight: 400;
+	color: black;
+	font-size: 26px;
+ }
+
+#modal::backdrop {
+	background-color: rgba(0, 0, 0, 0.3)
+}
+
+#closemodal {
+	border: none;
+	background-color: white;
+	font-size: 24px;
+}
+#closemodal i {
+	display: flex;
+}
+
 /* DIV FILTRE */
 
 .container-filter {
