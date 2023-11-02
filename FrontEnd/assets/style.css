@@ -125,6 +125,7 @@ li:hover {
 
 .edit-btn i {
 	margin: 8px;
+
 }
 
 
@@ -133,6 +134,8 @@ li:hover {
 #modal {
 	border: none;
 	border-radius: 10px;
+	width: 602px;
+	height: 660px;
 }
 
  #modal h2 {
@@ -145,17 +148,74 @@ li:hover {
 	background-color: rgba(0, 0, 0, 0.3)
 }
 
+.titleModal {
+	display: flex;
+	justify-content: center;
+	margin: 20px;
+}
+
+
+.galleryModal {
+    display: grid;
+    grid-template-columns: repeat(5, 75px); /* Définir 5 colonnes égales */
+    grid-column-gap: 11px;
+	grid-row-gap: 20px;
+	position: absolute;
+	top: 143px;
+	left: 101px;
+
+}
+
+.barmodal {
+	display: flex;
+	background-color: grey;
+	height: 1px;
+	width: 420px;
+	position: absolute;
+	top: 560px;
+	left: 101px;
+}
+
+.galleryModal img {
+	width: 76px;
+	height: 102px;
+
+}
+
+.galleryModal figure {
+	width: 76px;
+}
+
 #closemodal {
+	position: relative;
+	top: 2px;
+	left: 573px;
 	border: none;
 	background-color: white;
 	font-size: 24px;
 }
-#closemodal i {
-	display: flex;
+
+#addPicture {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	text-align: center;
+	background-color: #1D6154;
+	width: 237px;
+	height: 36px;
+	border-radius: 20px;
+	margin : auto ;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	position: absolute;
+	top: 588px;
+	left: 190px;
+
+
 }
 
 /* DIV FILTRE */
-
+   
 .container-filter {
 	display: flex;
 	flex-direction: row;
@@ -227,6 +287,7 @@ li:hover {
 	width: 100%;
 
 }
+
 #contact {
 	width: 50%;
 margin: auto;

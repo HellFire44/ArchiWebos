@@ -71,6 +71,7 @@ export function setupGallery() {
         closeBtn.addEventListener("click", function () {
 
           modal.close()
+          window.location.reload()
         });
         
         const logout = document.getElementById("logout");

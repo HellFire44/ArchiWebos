@@ -35,7 +35,7 @@ function handleLogin(event) {
 
   const email = emailInput.value;
   const password = passwordInput.value;
-
+// Requête qui reçoit le mail 
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
     headers: {
@@ -43,15 +43,13 @@ function handleLogin(event) {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then(response => {
-      if (response.ok) {
+  .then(response => response.json())
+    .then(data => {
         console.log("Connexion réussie");
-        setAuthToken("Sophie - Admin");
+        // Enregistre le token dans le local storage
+        setAuthToken(data.token);
+        console.log(data.token);
         window.location.href = "./index.html";
-      } else {
-        console.error("Échec de la connexion");
-        displayError(emailError, "Identifiants incorrects");
-      }
     })
     .catch(error => {
       console.error("Erreur réseau :", error);
