@@ -37,6 +37,22 @@ export function setupGallery() {
       }
       
       if (getAuthToken(true)) {
+
+        //  Ajout de la ToolBar Édition
+        const toolbar = document.querySelector(".toolbar");
+        const pToolbar = document.createElement('p');
+        pToolbar.classList.add("edit-toolbar");
+
+        const pIcon = document.createElement('i');
+        pIcon.classList.add("fa-regular", "fa-pen-to-square"); 
+
+        pToolbar.appendChild(pIcon);
+
+        const textNode = document.createTextNode("Mode édition");
+        pToolbar.appendChild(textNode);
+        toolbar.appendChild(pToolbar);
+
+
         showImagesByCategory(null);
         filterContainer.innerHTML = ""; 
         
@@ -67,13 +83,6 @@ export function setupGallery() {
           DataModal()
               });
 
-        // MODAL FERMER
-        closeBtn.addEventListener("click", function () {
-
-          modal.close()
-          window.location.reload()
-        });
-        
         const logout = document.getElementById("logout");
         
         logout.innerHTML = "logout";

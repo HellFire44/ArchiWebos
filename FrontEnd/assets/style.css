@@ -182,9 +182,25 @@ li:hover {
 
 }
 
+.galleryModal i {
+	background-color: black;
+	border-radius: 2px;
+	padding: 3px;
+	position: absolute;
+	top: 5px;
+	left: 53px;
+}
+
+.galleryModal figure {
+	position: relative;
+	display: inline-block;
+  }
+
+  
 .galleryModal figure {
 	width: 76px;
 }
+  
 
 #closemodal {
 	position: relative;
@@ -214,6 +230,45 @@ li:hover {
 
 }
 
+#backmodal {
+	position: relative;
+	top: 2px;
+	left: -23px;
+	border: none;
+	background-color: white;
+	font-size: 24px;
+}
+#modal form {
+	text-align: left;
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#modal label {
+	padding-bottom: 10px;
+	margin: 2em 0 1em 0;
+	font-size: 14px;
+	font-weight: bold;
+	font-family: 'Work Sans' ;
+	display: flex;
+	flex-direction: column;
+}
+#modal input {
+	height: 51px;
+	width: 420px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#modal select {
+	height: 51px;
+	width: 420px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
 /* DIV FILTRE */
    
 .container-filter {
