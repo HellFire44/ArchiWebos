@@ -42,6 +42,8 @@ export function addPicture() {
     imageMessage.textContent = "jpg, png : 4mo max";
     imageUploadSection.appendChild(imageMessage);
 
+
+
     // Créer un élément pour le glisser-déposer de l'image
     const imageUpload = document.createElement("input");
     imageUpload.type = "file";
@@ -55,6 +57,9 @@ export function addPicture() {
         imageUpload.click();
     });
 
+
+    let imageUrl; // Déclare la constante imageUrl en dehors de la fonction
+
     imageUpload.addEventListener("change", function () {
         const selectedFile = imageUpload.files[0];
         if (selectedFile) {
@@ -62,10 +67,15 @@ export function addPicture() {
             if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/png") {
                 if (selectedFile.size <= 4 * 1024 * 1024) {
                     // Le fichier est valide, traitez-le ici, par exemple, affichez un aperçu de l'image
+                    imageUrl = URL.createObjectURL(selectedFile); // Attribue la valeur à la constante
                     const imagePreview = document.createElement("img");
                     imagePreview.classList.add("image-preview");
-                    imagePreview.src = URL.createObjectURL(selectedFile);
+                    imagePreview.src = imageUrl;
                     imageUploadSection.appendChild(imagePreview);
+                    imageMessage.style.display = "none";
+                    addPhotoButton.style.display = "none";
+                    button.style.backgroundColor = "#1D6154";     
+    
                 } else {
                     alert("La taille du fichier dépasse la limite de 4 Mo.");
                 }
@@ -74,8 +84,9 @@ export function addPicture() {
             }
         }
     });
+    
+    // Tu peux maintenant utiliser la constante imageUrl ailleurs dans ton code si besoin.
 
-    // Reste du contenu de votre modal (bouton Valider, etc.)
 
 
     // Formulaire 
@@ -127,14 +138,65 @@ export function addPicture() {
 
     modalDialog.appendChild(form);
 
+
+    // Barmodal 
+    const paragraph = document.createElement("p");
+    paragraph.classList.add('barmodal');
+    modalDialog.appendChild(paragraph);
+
+    // Bouton Valider Gris 
+    const button = document.createElement('button');
+    button.id = "valide-button";
+    button.textContent = "Valider";
+    button.style.backgroundColor = "#A7A7A7";
+    modalDialog.appendChild(button);
+
+    // Clic Valider
+    button.addEventListener("click", function () {
+
+        // function getAuthToken() {
+        //     return localStorage.getItem("authToken");
+        // }
+        fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+               "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 
+                title: titleInput.value,
+                imageUrl: imageUrl,
+                category: categorySelect.value 
+            }),
+         })
+         .then(response => response.json())
+         .then(data => {
+            // Traitement de la réponse ici
+         })
+         .catch(error => {
+            console.error('Erreur lors de la requête :', error);
+         });
+        // Requete a l'API pour lui envoyé l'image le titre et la catégories 
+
+        // Récupere la reponse de l'IMAGE
+
+        // Récupéré la reponse du Titre 
+
+        // Récupéré la reponse de la catégorie 
+
+
+        // Envoyé les info a l'api 
+    })
+
+    // Retour Modal 1
     backModal.addEventListener("click", function () {
         modalDialog.innerHTML = "";
         DataModal();
     });
 
-    // action close 
+    // Fermer le Modal
     closebtn.addEventListener("click", function () {
-        modalDialog.close();
-        window.location.reload();
+        modalDialog.remove();
+        // window.location.reload();
     });
 }

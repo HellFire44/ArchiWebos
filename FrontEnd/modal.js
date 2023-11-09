@@ -3,6 +3,11 @@ import { addPicture } from "./addPicture.js";
 export function DataModal() {
   const modalDialog = document.getElementById("modal");
 
+
+
+	
+	
+
   //  Fermer le modal 
   const closebtn = document.createElement('button')
   closebtn.id = 'closemodal';
@@ -53,6 +58,8 @@ export function DataModal() {
         // Ajouter un gestionnaire d'événements pour supprimer l'image au clic sur l'icône
         trashIcon.addEventListener("click", function () {
           figure.remove();
+          // Si je clic sur un figure elle ce supprime aussi sur l'API 
+          // Delete  /works/{id}
         });
 
         figure.appendChild(img);
@@ -73,8 +80,9 @@ export function DataModal() {
       });
       
       closebtn.addEventListener("click", function () {
-        modalDialog.close()
-        window.location.reload()
+        modalDialog.remove()
+        modalDialog.style.display = "none";
+        // window.location.reload()
       })
       
 

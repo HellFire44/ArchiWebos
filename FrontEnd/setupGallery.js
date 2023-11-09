@@ -33,10 +33,10 @@ export function setupGallery() {
       }
       
       function getAuthToken() {
-        return localStorage.getItem("authToken");
+        return localStorage.getItem("authToken"); // true or false
       }
       
-      if (getAuthToken(true)) {
+      if (getAuthToken()) {
 
         //  Ajout de la ToolBar Édition
         const toolbar = document.querySelector(".toolbar");
@@ -76,11 +76,29 @@ export function setupGallery() {
 
         const modal = document.querySelector("#modal")
         const closeBtn = document.querySelector("#closemodal")
+
+
         //  MODAL OUVERT 
         editButton.addEventListener("click", function () {
 
-          modal.showModal()
-          DataModal()
+          const modal = document.querySelector('#modal');
+          const body = document.querySelector('body');
+          const main = body.querySelector('main');
+          
+          if (modal && !modal.open) {
+            modal.showModal();
+            modal.style.display = 'flex';
+            DataModal();
+          } else {
+            // Création d'un nouveau modal si nécessaire
+            const newModal = document.createElement('dialog');
+            newModal.id = 'modal';
+            newModal.style.display = 'flex';
+            main.appendChild(newModal);
+            newModal.open;
+          }
+
+
               });
 
         const logout = document.getElementById("logout");
@@ -125,5 +143,27 @@ export function setupGallery() {
 
   }
   
- 
+  // imageUpload.addEventListener("change", function () {
+  //   const selectedFile = imageUpload.files[0];
+  //   if (selectedFile) {
+  //     // Vérifiez le format et la taille du fichier ici
+  //     if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/png") {
+  //       if (selectedFile.size <= 4 * 1024 * 1024) {
+  //         // Le fichier est valide, traitez-le ici, par exemple, affichez un aperçu de l'image
+  //         const imagePreview = document.createElement("img");
+  //         imagePreview.classList.add("image-preview");
+  //         imagePreview.src = URL.createObjectURL(selectedFile);
+  //         imageUploadSection.appendChild(imagePreview);
+  //         imageMessage.style.display = "none";
+  //         addPhotoButton.style.display = "none";
+  //         button.style.backgroundColor = "#1D6154";     
+  
+  //       } else {
+  //         alert("La taille du fichier dépasse la limite de 4 Mo.");
+  //       }
+  //     } else {
+  //       alert("Format de fichier non pris en charge. Utilisez uniquement jpg ou png.");
+  //     }
+  //   }
+  // });
   
