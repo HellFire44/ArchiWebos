@@ -104,9 +104,12 @@ export function setupGallery() {
         const logout = document.getElementById("logout");
         
         logout.innerHTML = "logout";
+
+        // Ajouter la rédirection sur la page index.html
         
         logout.addEventListener("click", function() {
           localStorage.clear("authToken")
+          window.location.href = './index.html';
         } )
       } else {
   console.log("Compte Non-Connecté")
@@ -142,28 +145,4 @@ export function setupGallery() {
 
 
   }
-  
-  // imageUpload.addEventListener("change", function () {
-  //   const selectedFile = imageUpload.files[0];
-  //   if (selectedFile) {
-  //     // Vérifiez le format et la taille du fichier ici
-  //     if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/png") {
-  //       if (selectedFile.size <= 4 * 1024 * 1024) {
-  //         // Le fichier est valide, traitez-le ici, par exemple, affichez un aperçu de l'image
-  //         const imagePreview = document.createElement("img");
-  //         imagePreview.classList.add("image-preview");
-  //         imagePreview.src = URL.createObjectURL(selectedFile);
-  //         imageUploadSection.appendChild(imagePreview);
-  //         imageMessage.style.display = "none";
-  //         addPhotoButton.style.display = "none";
-  //         button.style.backgroundColor = "#1D6154";     
-  
-  //       } else {
-  //         alert("La taille du fichier dépasse la limite de 4 Mo.");
-  //       }
-  //     } else {
-  //       alert("Format de fichier non pris en charge. Utilisez uniquement jpg ou png.");
-  //     }
-  //   }
-  // });
   

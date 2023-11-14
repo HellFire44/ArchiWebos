@@ -3,7 +3,6 @@ import { DataModal } from "./modal.js";
 export function addPicture() {
     const modalDialog = document.getElementById("modal");
 
-    
     // Bouton Fermer le modal 
     const closebtn = document.createElement('button');
     closebtn.id = 'closemodal';
@@ -26,7 +25,7 @@ export function addPicture() {
     title.classList.add('titleModal');
     modalDialog.appendChild(title);
 
-    // Créer une section pour le glisser-déposer d'image (rectangle bleu pale)
+    // Créer une section pour le glisser-déposer d'image
     const imageUploadSection = document.createElement("div");
     imageUploadSection.classList.add("image-upload-section");
     modalDialog.appendChild(imageUploadSection);
@@ -42,8 +41,6 @@ export function addPicture() {
     imageMessage.textContent = "jpg, png : 4mo max";
     imageUploadSection.appendChild(imageMessage);
 
-
-
     // Créer un élément pour le glisser-déposer de l'image
     const imageUpload = document.createElement("input");
     imageUpload.type = "file";
@@ -57,25 +54,24 @@ export function addPicture() {
         imageUpload.click();
     });
 
+    // Variable pour stocker l'URL de l'image
+    let imageUrl;
 
-    let imageUrl; // Déclare la constante imageUrl en dehors de la fonction
-
+    // Gestionnaire d'événements pour le changement de l'image
     imageUpload.addEventListener("change", function () {
         const selectedFile = imageUpload.files[0];
         if (selectedFile) {
             // Vérifiez le format et la taille du fichier ici
             if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/png") {
                 if (selectedFile.size <= 4 * 1024 * 1024) {
-                    // Le fichier est valide, traitez-le ici, par exemple, affichez un aperçu de l'image
-                    imageUrl = URL.createObjectURL(selectedFile); // Attribue la valeur à la constante
+                    // Le fichier est valide, affichez un aperçu de l'image
+                    imageUrl = URL.createObjectURL(selectedFile); // Attribue l'URL à la variable
                     const imagePreview = document.createElement("img");
                     imagePreview.classList.add("image-preview");
                     imagePreview.src = imageUrl;
                     imageUploadSection.appendChild(imagePreview);
                     imageMessage.style.display = "none";
                     addPhotoButton.style.display = "none";
-                    button.style.backgroundColor = "#1D6154";     
-    
                 } else {
                     alert("La taille du fichier dépasse la limite de 4 Mo.");
                 }
@@ -84,10 +80,6 @@ export function addPicture() {
             }
         }
     });
-    
-    // Tu peux maintenant utiliser la constante imageUrl ailleurs dans ton code si besoin.
-
-
 
     // Formulaire 
     const form = document.createElement('form');
@@ -138,65 +130,81 @@ export function addPicture() {
 
     modalDialog.appendChild(form);
 
-
     // Barmodal 
     const paragraph = document.createElement("p");
     paragraph.classList.add('barmodal');
     modalDialog.appendChild(paragraph);
 
-    // Bouton Valider Gris 
-    const button = document.createElement('button');
-    button.id = "valide-button";
-    button.textContent = "Valider";
-    button.style.backgroundColor = "#A7A7A7";
-    modalDialog.appendChild(button);
-
-    // Clic Valider
+        // Bouton Valider
+        const button = document.createElement('button');
+        button.id = "valide-button";
+        button.textContent = "Valider";
+        button.style.backgroundColor = "#A7A7A7"; // Bouton désactivé par défaut
+        button.disabled = true; // Désactive le bouton par défaut
+        modalDialog.appendChild(button);
+    
+        // Fonction pour vérifier si tous les champs sont remplis
+        function checkIfAllFieldsAreFilled() {
+            if (imageUrl && titleInput.value && categorySelect.value) {
+                button.style.backgroundColor = "#1D6154"; // Change la couleur du bouton
+                button.disabled = false; // Active le bouton
+            } else {
+                button.style.backgroundColor = "#A7A7A7"; // Garde le bouton désactivé
+                button.disabled = true;
+            }
+        }
+        
+        // Gestionnaire d'événements pour les changements dans les champs de titre et de catégorie
+        titleInput.addEventListener("input", checkIfAllFieldsAreFilled);
+        categorySelect.addEventListener("change", checkIfAllFieldsAreFilled);
+    
+    // Gestionnaire de clic sur le bouton Valider
     button.addEventListener("click", function () {
+        if (titleInput.value && imageUpload.files[0] && categorySelect.value) {
+            const formData = new FormData();
+            formData.append('image', imageUpload.files[0]);
+            formData.append('title', titleInput.value);
+            formData.append('category', categorySelect.value);
 
-        // function getAuthToken() {
-        //     return localStorage.getItem("authToken");
-        // }
-        fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {
-               "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
-               "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ 
-                title: titleInput.value,
-                imageUrl: imageUrl,
-                category: categorySelect.value 
-            }),
-         })
-         .then(response => response.json())
-         .then(data => {
-            // Traitement de la réponse ici
-         })
-         .catch(error => {
-            console.error('Erreur lors de la requête :', error);
-         });
-        // Requete a l'API pour lui envoyé l'image le titre et la catégories 
-
-        // Récupere la reponse de l'IMAGE
-
-        // Récupéré la reponse du Titre 
-
-        // Récupéré la reponse de la catégorie 
-
-
-        // Envoyé les info a l'api 
-    })
-
-    // Retour Modal 1
-    backModal.addEventListener("click", function () {
-        modalDialog.innerHTML = "";
-        DataModal();
+            fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                headers: {
+                   "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                   // Ne pas spécifier le Content-Type ici, car il est automatiquement défini avec FormData
+                },
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(`Erreur: ${response.status}`);
+                }
+            })
+            .then(data => {
+                alert("Image ajoutée avec succès !");
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Erreur lors de la requête :', error);
+                alert("Une erreur s'est produite lors de l'envoi des données.");
+            });
+        } else {
+            alert("Veuillez remplir tous les champs requis.");
+        }
     });
 
-    // Fermer le Modal
-    closebtn.addEventListener("click", function () {
-        modalDialog.remove();
-        // window.location.reload();
-    });
-}
+    
+        // Gestionnaire de clic pour le bouton Retour
+        backModal.addEventListener("click", function () {
+            modalDialog.innerHTML = "";
+            DataModal();
+        });
+    
+        // Gestionnaire de clic pour fermer le modal
+        closebtn.addEventListener("click", function () {
+            modalDialog.remove();
+            // window.location.reload(); // Décommentez si vous souhaitez actualiser la page après la fermeture du modal
+        });
+    }
+    

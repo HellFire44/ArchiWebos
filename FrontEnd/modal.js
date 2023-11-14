@@ -52,15 +52,39 @@ export function DataModal() {
         // Création de l'icône poubelle
         const trashIcon = document.createElement("i");
         trashIcon.classList.add("fa-solid", "fa-trash-can");
+        trashIcon.setAttribute('data-id', imageData.id); 
         trashIcon.style.color = "#ffffff";
         trashIcon.style.cursor = "pointer";
 
         // Ajouter un gestionnaire d'événements pour supprimer l'image au clic sur l'icône
         trashIcon.addEventListener("click", function () {
+
+          // Supprimer l'élément de l'interface utilisateur
           figure.remove();
-          // Si je clic sur un figure elle ce supprime aussi sur l'API 
-          // Delete  /works/{id}
-        });
+      
+          // Obtenir l'ID de l'image à supprimer
+          const workId = this.getAttribute('data-id');
+      
+          // Effectuer la requête DELETE vers l'API
+          fetch(`http://localhost:5678/api/works/${workId}`, {
+              method: 'DELETE',
+              headers: {
+                "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              },
+          })
+          .then(response => {
+              if (response.ok) {
+                  console.log('Image supprimée avec succès');
+                  window.location.reload();
+              } else {
+                  console.error('Erreur lors de la suppression de l\'Image');
+              }
+          })
+          .catch(error => {
+              console.error('Il y a eu un problème avec l\'opération fetch:', error);
+          });
+      });
+      
 
         figure.appendChild(img);
         figure.appendChild(trashIcon);
