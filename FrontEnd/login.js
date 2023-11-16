@@ -35,7 +35,7 @@ function handleLogin(event) {
 
   const email = emailInput.value;
   const password = passwordInput.value;
-// Requête qui reçoit le mail 
+
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
     headers: {
@@ -44,17 +44,21 @@ function handleLogin(event) {
     body: JSON.stringify({ email, password }),
   })
   .then(response => response.json())
-    .then(data => {
-        console.log("Connexion réussie");
-        // Enregistre le token dans le local storage
-        setAuthToken(data.token);
-        console.log(data.token);
-        window.location.href = "./index.html";
-    })
-    .catch(error => {
-      console.error("Erreur réseau :", error);
-      displayError(emailError, "Erreur de connexion");
-    });
+  .then(data => {
+    if (data.token) {
+      // Connexion réussie, enregistre le token et redirige
+      setAuthToken(data.token);
+      console.log("Connexion réussie, token:", data.token);
+      window.location.href = "./index.html";
+    } else {
+      // Échec de la connexion, affiche un message d'erreur
+      displayError(emailError, "Identifiants incorrects");
+    }
+  })
+  .catch(error => {
+    console.error("Erreur réseau :", error);
+    displayError(emailError, "Erreur de connexion");
+  });
 }
 
 loginForm.addEventListener("submit", handleLogin);

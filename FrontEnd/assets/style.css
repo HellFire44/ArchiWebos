@@ -122,7 +122,9 @@ li:hover {
 	padding: 4px 14px;
 	font-size: 16px;
 }
-
+.edit-btn:hover {
+	cursor: pointer;
+}
 .edit-btn i {
 	margin: 8px;
 

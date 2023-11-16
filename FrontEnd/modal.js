@@ -1,4 +1,5 @@
 import { addPicture } from "./addPicture.js";
+import { showImagesByCategory } from "./setupGallery.js";
 
 export function DataModal() {
   const modalDialog = document.getElementById("modal");
@@ -74,8 +75,7 @@ export function DataModal() {
           })
           .then(response => {
               if (response.ok) {
-                  console.log('Image supprimée avec succès');
-                  window.location.reload();
+                showImagesByCategory(null);
               } else {
                   console.error('Erreur lors de la suppression de l\'Image');
               }

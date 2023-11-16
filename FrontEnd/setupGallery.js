@@ -1,5 +1,33 @@
 import { DataModal } from "./modal.js";
 
+export function showImagesByCategory(categoryId) {
+  // Assurez-vous que 'gallery' est défini dans cette portée
+  const gallery = document.querySelector(".gallery");
+
+  gallery.innerHTML = "";
+  fetch("http://localhost:5678/api/works")
+    .then(response => response.json())
+    .then(images => {
+      images.forEach(imageData => {
+        if (categoryId === null || imageData.category.id === categoryId) {
+          const figure = document.createElement("figure");
+          const img = document.createElement("img");
+          img.src = imageData.imageUrl;
+          const figcaption = document.createElement("figcaption");
+          figcaption.textContent = imageData.title;
+          
+          figure.appendChild(img);
+          figure.appendChild(figcaption);
+          gallery.appendChild(figure);
+        }
+      });
+    })
+    .catch(error => {
+      console.error("Erreur lors du chargement des images : ", error);
+    });
+}
+
+
 
 export function setupGallery() {
 
@@ -8,29 +36,7 @@ export function setupGallery() {
   const allFilter = document.getElementById("all-filter");
   
   
-  function showImagesByCategory(categoryId) {
-      gallery.innerHTML = "";
-      fetch("http://localhost:5678/api/works") // API IMAGES
-      .then(response => response.json())
-      .then(images => {
-        images.forEach(imageData => {
-          if (categoryId === null || imageData.category.id === categoryId) {
-              const figure = document.createElement("figure");
-              const img = document.createElement("img");
-              img.src = imageData.imageUrl;
-              const figcaption = document.createElement("figcaption");
-              figcaption.textContent = imageData.title;
-              
-              figure.appendChild(img);
-              figure.appendChild(figcaption);
-              gallery.appendChild(figure);
-            }
-          });
-        })
-        .catch(error => {
-          console.error("Erreur lors du chargement des images : ", error);
-        });
-      }
+
       
       function getAuthToken() {
         return localStorage.getItem("authToken"); // true or false
@@ -104,12 +110,11 @@ export function setupGallery() {
         const logout = document.getElementById("logout");
         
         logout.innerHTML = "logout";
-
+        logout.href = "./index.html"
         // Ajouter la rédirection sur la page index.html
         
         logout.addEventListener("click", function() {
           localStorage.clear("authToken")
-          window.location.href = './index.html';
         } )
       } else {
   console.log("Compte Non-Connecté")

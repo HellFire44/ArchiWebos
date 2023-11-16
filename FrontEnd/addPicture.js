@@ -1,4 +1,7 @@
 import { DataModal } from "./modal.js";
+import { setupGallery } from "./setupGallery.js";
+
+import { showImagesByCategory } from "./setupGallery.js";
 
 export function addPicture() {
     const modalDialog = document.getElementById("modal");
@@ -158,6 +161,8 @@ export function addPicture() {
         titleInput.addEventListener("input", checkIfAllFieldsAreFilled);
         categorySelect.addEventListener("change", checkIfAllFieldsAreFilled);
     
+
+       
     // Gestionnaire de clic sur le bouton Valider
     button.addEventListener("click", function () {
         if (titleInput.value && imageUpload.files[0] && categorySelect.value) {
@@ -182,8 +187,8 @@ export function addPicture() {
                 }
             })
             .then(data => {
-                alert("Image ajoutée avec succès !");
-                window.location.reload();
+ 
+                showImagesByCategory(null);
             })
             .catch(error => {
                 console.error('Erreur lors de la requête :', error);
