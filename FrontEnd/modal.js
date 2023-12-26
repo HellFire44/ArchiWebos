@@ -4,18 +4,13 @@ import { showImagesByCategory } from "./setupGallery.js";
 export function DataModal() {
   const modalDialog = document.getElementById("modal");
 
-
-
-	
-	
-
-  //  Fermer le modal 
-  const closebtn = document.createElement('button')
+  // Fermer le modal 
+  const closebtn = document.createElement('button');
   closebtn.id = 'closemodal';
   const icon = document.createElement("i");
   icon.classList.add("fa-solid", "fa-xmark");
-  closebtn.appendChild(icon)
-  modalDialog.appendChild(closebtn)
+  closebtn.appendChild(icon);
+  modalDialog.appendChild(closebtn);
 
   // Titre du Modal 
   const title = document.createElement('h2');
@@ -59,7 +54,6 @@ export function DataModal() {
 
         // Ajouter un gestionnaire d'événements pour supprimer l'image au clic sur l'icône
         trashIcon.addEventListener("click", function () {
-
           // Supprimer l'élément de l'interface utilisateur
           figure.remove();
       
@@ -84,7 +78,6 @@ export function DataModal() {
               console.error('Il y a eu un problème avec l\'opération fetch:', error);
           });
       });
-      
 
         figure.appendChild(img);
         figure.appendChild(trashIcon);
@@ -94,8 +87,6 @@ export function DataModal() {
       // Ajouter la div .galleryModal à la modal
       modalDialog.appendChild(galleryDiv);
 
-
-
       // MODAL Ajout Photo
       addButton.addEventListener("click", function() {
         modalDialog.innerHTML = "";
@@ -104,12 +95,10 @@ export function DataModal() {
       });
       
       closebtn.addEventListener("click", function () {
-        modalDialog.remove()
+        modalDialog.remove();
         modalDialog.style.display = "none";
-        // window.location.reload()
-      })
-      
-
+        // window.location.reload();
+      });
     })
     .catch(error => {
       console.error("Erreur lors du chargement des images : ", error);

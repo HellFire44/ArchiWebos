@@ -1,12 +1,11 @@
 import { DataModal } from "./modal.js";
 import { setupGallery } from "./setupGallery.js";
-
 import { showImagesByCategory } from "./setupGallery.js";
 
 export function addPicture() {
     const modalDialog = document.getElementById("modal");
 
-    // Bouton Fermer le modal 
+    // Bouton Fermer le modal
     const closebtn = document.createElement('button');
     closebtn.id = 'closemodal';
     const icon = document.createElement("i");
@@ -14,7 +13,7 @@ export function addPicture() {
     closebtn.appendChild(icon);
     modalDialog.appendChild(closebtn);
 
-    // Bouton Retour 
+    // Bouton Retour
     const backModal = document.createElement("button");
     backModal.id = 'backmodal';
     const iconBack = document.createElement('i');
@@ -22,7 +21,7 @@ export function addPicture() {
     backModal.appendChild(iconBack);
     modalDialog.appendChild(backModal);
 
-    // Titre du modal 
+    // Titre du modal
     const title = document.createElement('h2');
     title.textContent = "Ajout photo";
     title.classList.add('titleModal');
@@ -138,31 +137,29 @@ export function addPicture() {
     paragraph.classList.add('barmodal');
     modalDialog.appendChild(paragraph);
 
-        // Bouton Valider
-        const button = document.createElement('button');
-        button.id = "valide-button";
-        button.textContent = "Valider";
-        button.style.backgroundColor = "#A7A7A7"; // Bouton désactivé par défaut
-        button.disabled = true; // Désactive le bouton par défaut
-        modalDialog.appendChild(button);
-    
-        // Fonction pour vérifier si tous les champs sont remplis
-        function checkIfAllFieldsAreFilled() {
-            if (imageUrl && titleInput.value && categorySelect.value) {
-                button.style.backgroundColor = "#1D6154"; // Change la couleur du bouton
-                button.disabled = false; // Active le bouton
-            } else {
-                button.style.backgroundColor = "#A7A7A7"; // Garde le bouton désactivé
-                button.disabled = true;
-            }
-        }
-        
-        // Gestionnaire d'événements pour les changements dans les champs de titre et de catégorie
-        titleInput.addEventListener("input", checkIfAllFieldsAreFilled);
-        categorySelect.addEventListener("change", checkIfAllFieldsAreFilled);
-    
+    // Bouton Valider
+    const button = document.createElement('button');
+    button.id = "valide-button";
+    button.textContent = "Valider";
+    button.style.backgroundColor = "#A7A7A7"; // Bouton désactivé par défaut
+    button.disabled = true; // Désactive le bouton par défaut
+    modalDialog.appendChild(button);
 
-       
+    // Fonction pour vérifier si tous les champs sont remplis
+    function checkIfAllFieldsAreFilled() {
+        if (imageUrl && titleInput.value && categorySelect.value) {
+            button.style.backgroundColor = "#1D6154"; // Change la couleur du bouton
+            button.disabled = false; // Active le bouton
+        } else {
+            button.style.backgroundColor = "#A7A7A7"; // Garde le bouton désactivé
+            button.disabled = true;
+        }
+    }
+
+    // Gestionnaire d'événements pour les changements dans les champs de titre et de catégorie
+    titleInput.addEventListener("input", checkIfAllFieldsAreFilled);
+    categorySelect.addEventListener("change", checkIfAllFieldsAreFilled);
+
     // Gestionnaire de clic sur le bouton Valider
     button.addEventListener("click", function () {
         if (titleInput.value && imageUpload.files[0] && categorySelect.value) {
@@ -187,7 +184,6 @@ export function addPicture() {
                 }
             })
             .then(data => {
- 
                 showImagesByCategory(null);
             })
             .catch(error => {
@@ -199,17 +195,15 @@ export function addPicture() {
         }
     });
 
-    
-        // Gestionnaire de clic pour le bouton Retour
-        backModal.addEventListener("click", function () {
-            modalDialog.innerHTML = "";
-            DataModal();
-        });
-    
-        // Gestionnaire de clic pour fermer le modal
-        closebtn.addEventListener("click", function () {
-            modalDialog.remove();
-            // window.location.reload(); // Décommentez si vous souhaitez actualiser la page après la fermeture du modal
-        });
-    }
-    
+    // Gestionnaire de clic pour le bouton Retour
+    backModal.addEventListener("click", function () {
+        modalDialog.innerHTML = "";
+        DataModal();
+    });
+
+    // Gestionnaire de clic pour fermer le modal
+    closebtn.addEventListener("click", function () {
+        modalDialog.remove();
+        // window.location.reload(); // Décommentez si vous souhaitez actualiser la page après la fermeture du modal
+    });
+}

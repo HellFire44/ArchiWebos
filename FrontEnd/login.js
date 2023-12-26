@@ -4,68 +4,71 @@ const passwordInput = document.getElementById("password");
 const emailError = document.getElementById("email-error");
 const passwordError = document.getElementById("password-error");
 
-
 function displayError(element, message) {
-  element.textContent = message;
+    element.textContent = message;
+    element.classList.add("error-message"); // Ajoute la classe pour la couleur rouge
 }
 
 function clearErrors() {
-  emailError.textContent = "";
-  passwordError.textContent = "";
+    emailError.textContent = "";
+    passwordError.textContent = "";
+    emailError.classList.remove("error-message"); // Retire la classe pour la couleur rouge
+    passwordError.classList.remove("error-message");
 }
 
 function validateForm() {
-  clearErrors();
+    clearErrors();
 
-  const email = emailInput.value;
-  const password = passwordInput.value;
+    const email = emailInput.value;
+    const password = passwordInput.value;
 
-  if (!email || !password) {
-    if (!email) displayError(emailError, "Champ requis");
-    if (!password) displayError(passwordError, "Champ requis");
-    return false;
-  }
+    if (!email || !password) {
+        if (!email) displayError(emailError, "Champ requis");
+        if (!password) displayError(passwordError, "Champ requis");
+        return false;
+    }
 
-  return true;
+    return true;
 }
 
 function handleLogin(event) {
-  event.preventDefault();
-  if (!validateForm()) return;
+    event.preventDefault();
+    if (!validateForm()) return;
 
-  const email = emailInput.value;
-  const password = passwordInput.value;
+    const email = emailInput.value;
+    const password = passwordInput.value;
 
-  fetch("http://localhost:5678/api/users/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.token) {
-      // Connexion réussie, enregistre le token et redirige
-      setAuthToken(data.token);
-      console.log("Connexion réussie, token:", data.token);
-      window.location.href = "./index.html";
-    } else {
-      // Échec de la connexion, affiche un message d'erreur
-      displayError(emailError, "Identifiants incorrects");
-    }
-  })
-  .catch(error => {
-    console.error("Erreur réseau :", error);
-    displayError(emailError, "Erreur de connexion");
-  });
+    fetch("http://localhost:5678/api/users/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.token) {
+            // Connexion réussie, enregistre le token et redirige
+            setAuthToken(data.token);
+            console.log("Connexion réussie, token:", data.token);
+            window.location.href = "./index.html";
+        } else {
+            // Échec de la connexion, affiche un message d'erreur
+            displayError(emailError, "Identifiants incorrects");
+        }
+    })
+    .catch(error => {
+        console.error("Erreur réseau :", error);
+        displayError(emailError, "Erreur de connexion");
+    });
 }
 
 loginForm.addEventListener("submit", handleLogin);
 
 function setAuthToken(token) {
-  localStorage.setItem("authToken", token);
+    localStorage.setItem("authToken", token);
 }
+
 function getAuthToken() {
-  return localStorage.getItem("authToken");
+    return localStorage.getItem("authToken");
 }
